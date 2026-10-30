@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f9ff">
+  <meta name="description" content="SightMate Visual AI — an accessible image-classification support tool.">
+  <title>SightMate – Visual AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box}
+:root{--page:#f8f9ff;--panel:#fff;--blue:#0043b1;--blue2:#1d5bd8;--pale:#dce9ff;--pale2:#e6eeff;--pale3:#d3e0fe;--ink:#0d1c2e;--body:#434654;--muted:#56637c;--line:#cbd7ee;--good:#007434;--bad:#93000a;--radius:14px;font-family:"Atkinson Hyperlegible Next",Arial,sans-serif;color:var(--ink);font-size:16px}
+body{margin:0;background:var(--page);color:var(--ink);line-height:1.55;padding-bottom:100px}
+button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}
+a{color:inherit}.skip-link{position:absolute;left:12px;top:-60px;background:#fff;padding:12px;z-index:1000}.skip-link:focus{top:12px}
+.topbar{height:80px;position:sticky;top:0;z-index:20;background:rgba(248,249,255,.96);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:10px max(20px,calc((100vw - 1040px)/2));border-bottom:1px solid rgba(203,215,238,.7)}
+.brand-wrap,.brand,.top-actions{display:flex;align-items:center}.brand{gap:10px;text-decoration:none}.brand-mark{width:38px;height:38px;border-radius:12px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:800}.brand-name{font-weight:800;font-size:21px;letter-spacing:-.5px}.brand-subtitle{font-size:14px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px;margin-left:12px}.top-actions{gap:12px}.speech-status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:7px}.status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#8492a8;flex:0 0 auto}.status-dot.ready{background:var(--good)}.icon-button{width:44px;height:44px;border:0;border-radius:12px;background:var(--pale);color:var(--ink);font-size:23px}
+main{width:min(100% - 32px,760px);margin:24px auto 40px}.screen{display:none;animation:fade .18s ease}.screen.active{display:block}.screen[hidden]{display:none!important}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+.panel{background:var(--panel);border-radius:var(--radius);box-shadow:0 1px 3px rgba(13,28,46,.08);padding:20px;margin-bottom:18px;border:1px solid rgba(203,215,238,.35)}
+.home-hero{background:var(--pale2);padding:24px}.eyebrow{display:inline-flex;gap:8px;align-items:center;border-radius:999px;background:#d3e0fe;color:var(--muted);padding:5px 12px;font-weight:700;font-size:14px;letter-spacing:.2px}.home-hero h1{font-size:clamp(30px,5vw,42px);line-height:1.16;letter-spacing:-1px;margin:20px 0 14px;max-width:620px}.hero-copy{font-size:18px;line-height:1.62;color:var(--body);margin:0 0 20px}.safety-note{display:flex;gap:12px;padding:14px;background:#d5e3fc;border-radius:10px;margin:18px 0}.safety-note p{margin:0;font-size:15px;line-height:1.55}.note-icon{display:grid;place-items:center;flex:0 0 24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800}.hero-actions{display:grid;gap:10px;margin-top:18px}
+.button{border:0;border-radius:10px;padding:13px 18px;min-height:48px;font-weight:700;letter-spacing:.1px;display:inline-flex;gap:9px;align-items:center;justify-content:center;text-decoration:none;transition:filter .15s,transform .15s}.button:hover:not(:disabled){filter:brightness(.96)}.button:active:not(:disabled){transform:translateY(1px)}.button:focus-visible,.icon-button:focus-visible,.nav-item:focus-visible,input:focus-visible{outline:3px solid #f0a500;outline-offset:3px}.primary{background:var(--blue);color:#fff;box-shadow:0 2px 5px rgba(0,45,120,.18)}.secondary{background:var(--pale);color:var(--ink)}.wide{width:100%}.small{font-size:14px;min-height:44px;padding:10px 13px}
+.feature-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 28px}.feature-tile{height:126px;border-radius:12px;display:flex;align-items:end;padding:12px;color:#fff;font-weight:800;background:linear-gradient(145deg,#9ab6e8,#284d8c 75%)}.feature-tile.clarity{background:linear-gradient(145deg,#a7c5f7,#345b9a 75%)}
+.content-section{margin:28px 0}.content-section h2,.section-heading h2{font-size:23px;line-height:1.3;margin:0}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}.section-heading>span{color:var(--blue);font-weight:800}.steps{display:grid;gap:10px}.step-card{background:#fff;border-radius:12px;padding:20px;display:flex;gap:14px;box-shadow:0 1px 3px rgba(13,28,46,.06)}.step-number{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;background:var(--blue2);color:#fff;border-radius:12px;font-weight:800;font-size:21px}.step-number.pale{background:var(--pale3);color:var(--ink)}h3{margin:0 0 6px;font-size:19px}.step-card p,.capability-card p{margin:0;color:var(--body);line-height:1.6}.capability-grid{display:grid;gap:10px;margin-top:14px}.capability-card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 1px 3px rgba(13,28,46,.06)}.cap-icon{width:38px;height:38px;border-radius:10px;background:var(--pale);color:var(--blue);display:grid;place-items:center;font-size:20px;margin-bottom:12px}.model-heading{display:flex;gap:12px;align-items:center}.model-heading .cap-icon{margin:0}.model-heading h2{font-size:20px;margin:0}.model-heading p{margin:3px 0;color:var(--muted);font-size:14px}.model-status-row{display:flex;align-items:center;gap:9px;margin:18px 0 8px}.status-pill{display:inline-flex;align-items:center;border-radius:999px;background:var(--pale);color:var(--muted);font-weight:700;font-size:13px;padding:4px 10px;margin-left:auto}.muted{color:var(--muted);font-size:14px}.model-footer{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:12px;margin-top:16px;color:var(--muted);font-size:13px}
+.demo-panel{background:var(--pale2);padding:16px}.demo-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.demo-heading p{margin:2px 0 0;color:var(--body);font-size:14px}.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.demo-grid button:last-of-type{grid-column:1/-1}
+.guidance{display:flex;gap:14px;align-items:flex-start}.blue-panel{background:var(--pale3)}.round-icon{background:var(--blue);color:#fff;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;flex:0 0 42px;font-size:22px}.guidance h2{font-size:21px;margin:0 0 5px}.guidance p{margin:0;color:var(--body)}
+.camera-frame{position:relative;overflow:hidden;aspect-ratio:4/3;background:#d5e3fc;border-radius:14px;box-shadow:0 4px 10px rgba(13,28,46,.12);display:grid;place-items:center;margin:16px 0}.camera-frame video,.camera-frame img{width:100%;height:100%;object-fit:contain;background:#d5e3fc}.camera-frame video{display:none}.camera-frame video.visible{display:block}.camera-frame img{display:block}.camera-frame img[hidden]{display:none}.camera-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;text-align:center;color:var(--ink);padding:20px}.reticle{width:68px;height:68px;border:2px solid var(--blue);border-radius:50%;display:grid;place-items:center;font-size:35px;color:var(--blue)}.camera-placeholder span:last-child{color:var(--body);max-width:300px}.camera-overlay-status{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);border-radius:999px;padding:7px 12px;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:800}.camera-actions{display:grid;gap:9px;margin:12px 0 18px}
+.loading-panel{display:flex;align-items:center;gap:14px}.loading-panel[hidden],.error-panel[hidden]{display:none}.loading-panel p,.error-panel p{margin:3px 0 0;color:var(--body)}.spinner{width:28px;height:28px;border:3px solid var(--pale);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.error-panel{border-color:#e9b8b8;background:#fff6f5}.error-panel strong{color:var(--bad)}
+.scan-options h2,.result-image-panel h2,.description-panel h2,.history-actions h2{font-size:20px;margin:0 0 12px}.toggle-row{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}.toggle-row:first-of-type{border-top:0}.toggle-row strong,.toggle-row small{display:block}.toggle-row small{font-size:13px;color:var(--muted);margin-top:2px}.toggle-row input{width:22px;height:22px;accent-color:var(--blue);flex:0 0 auto}
+.safety-inline{background:#eff4ff;border-left:4px solid var(--blue);padding:14px 16px;border-radius:8px;color:var(--body);font-size:14px;margin:18px 0}.safety-inline strong{color:var(--ink)}
+.result-banner{background:var(--blue);color:#fff}.result-banner h1{font-size:29px;margin:15px 0 7px}.result-banner p{color:#e4ebff;margin:0 0 16px}.result-banner .button{background:#dce9ff;color:var(--ink)}.result-banner-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.result-banner .status-pill{margin:0;background:#dce9ff;color:var(--blue)}.result-score{font-size:22px;font-weight:800}.result-image-wrap{background:#eff4ff;border-radius:10px;min-height:160px;display:grid;place-items:center;overflow:hidden}.result-image-wrap img{width:100%;max-height:380px;object-fit:contain}.result-image-wrap img[hidden]{display:none}.empty-image{padding:40px 12px;color:var(--muted)}
+.confidence-list{display:grid;gap:15px}.confidence-row{display:grid;gap:6px}.confidence-label{display:flex;justify-content:space-between;gap:12px;font-weight:700}.confidence-track{height:13px;background:#e6eaf2;border-radius:999px;overflow:hidden}.confidence-fill{height:100%;background:var(--blue2);border-radius:999px;transition:width .25s}.confidence-row:first-child .confidence-fill{background:var(--good)}.threshold-note{background:#eff4ff;padding:12px;border-radius:8px;color:var(--body);font-size:14px;margin:18px 0 0}.description-panel>p{font-size:17px}.capability-boundary{background:#fff3ef;border-left:4px solid #b34c35;padding:14px;border-radius:8px}.capability-boundary p{margin:5px 0 0;color:var(--body);font-size:14px}.result-actions{display:grid;gap:10px}.two-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.text-button{background:transparent;border:0;color:var(--blue);font-weight:700;text-decoration:underline;padding:8px}
+.history-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:8px 0 20px}.history-heading h1{font-size:30px;margin:7px 0}.history-heading p{margin:0;color:var(--body)}.history-count{background:var(--pale3);color:var(--blue);width:58px;height:58px;display:grid;place-items:center;border-radius:50%;font-size:25px;font-weight:800;flex:0 0 auto}.session-summary{background:var(--blue);color:#fff}.summary-label{font-size:13px;color:#d9e0ff;letter-spacing:.5px;text-transform:uppercase;font-weight:700}.session-summary h2{font-size:24px;margin:5px 0}.session-summary p{margin:0;color:#d9e0ff}.history-toolbar{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}.history-toolbar h2{font-size:21px;margin:0}.history-list{display:grid;gap:12px}.empty-history{text-align:center;padding:28px}.empty-history>span{font-size:34px;color:var(--blue)}.empty-history p{color:var(--body)}.history-card h3{margin:10px 0}.history-card-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.history-card .muted{margin:0}.history-card .two-actions{margin-top:12px}.history-actions{margin-top:18px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(248,249,255,.97);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:7px max(8px,calc((100vw - 760px)/2)) max(7px,env(safe-area-inset-bottom));min-height:74px}.nav-item{background:transparent;border:0;border-radius:10px;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;font-size:12px;font-weight:700;min-height:58px}.nav-item>span:first-child{font-size:22px;line-height:1.2}.nav-item.active{color:var(--blue);background:var(--pale)}.nav-item b{font-size:10px;background:var(--pale3);padding:0 5px;border-radius:8px;margin-left:2px}
+.settings-dialog{border:0;border-radius:16px;padding:0;width:min(92vw,480px);box-shadow:0 20px 60px rgba(13,28,46,.25);color:var(--ink)}.settings-dialog::backdrop{background:rgba(13,28,46,.45)}.settings-dialog form{padding:22px}.dialog-heading{display:flex;justify-content:space-between;align-items:center}.dialog-heading h2{margin:0;font-size:23px}.dialog-heading .icon-button{font-size:27px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body.high-contrast{--page:#fff;--panel:#fff;--ink:#000;--body:#171717;--muted:#292929;--line:#555;--pale:#d7e4ff;--pale2:#e8efff}body.large-text{font-size:19px}body.large-text .hero-copy,body.large-text p{font-size:1.08em}
+@media(min-width:680px){main{margin-top:34px}.home-hero{padding:32px}.hero-actions{grid-template-columns:1.15fr 1fr}.feature-tile{height:150px}.capability-grid{grid-template-columns:repeat(3,1fr)}.demo-grid{grid-template-columns:repeat(3,1fr)}.demo-grid button:last-of-type{grid-column:auto}.camera-actions{grid-template-columns:1fr 1fr}.bottom-nav{padding-left:max(12px,calc((100vw - 760px)/2));padding-right:max(12px,calc((100vw - 760px)/2))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js" defer></script>
+  <script>
+(() => {
+  "use strict";
+  const MODEL_URL = "https://teachablemachine.withgoogle.com/models/4IJB2H1WW/";
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    model: null, labels: [], stream: null, timer: null, latest: null,
+    latestImage: null, latestSource: "", history: [], undoStack: [],
+    voice: true, announce: true, cameraBusy: false, activeScreen: "home"
+  };
+  const screens = ["home", "scan", "results", "history"];
+  try {
+    const saved = JSON.parse(localStorage.getItem("sightmate-saved-scans") || "[]");
+    if (Array.isArray(saved)) state.history = saved;
+  } catch (_) { /* storage may be unavailable in private or restricted contexts */ }
+
+  function announce(message) {
+    if (state.announce) $("live-announcer").textContent = message;
+  }
+  function speak(message) {
+    if (!state.voice || !("speechSynthesis" in window)) {
+      announce(message);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+  }
+  function navigate(screen) {
+    if (!screens.includes(screen)) return;
+    state.activeScreen = screen;
+    screens.forEach(name => {
+      const section = $("screen-" + name);
+      const active = name === screen;
+      section.classList.toggle("active", active);
+      section.hidden = !active;
+    });
+    document.querySelectorAll(".nav-item").forEach(btn => {
+      const active = btn.dataset.go === screen;
+      btn.classList.toggle("active", active);
+      if (active) btn.setAttribute("aria-current", "page");
+      else btn.removeAttribute("aria-current");
+    });
+    if (screen === "scan") ensureModel();
+    if (screen === "history") renderHistory();
+    window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+    $("main-content").focus({preventScroll:true});
+  }
+  function setModelStatus(status, detail, ready=false) {
+    $("model-status").textContent = status;
+    $("model-detail").textContent = detail;
+    $("model-pill").textContent = ready ? "Connected" : "Model status";
+    $("model-dot").classList.toggle("ready", ready);
+  }
+  function showLoading(title, detail) {
+    $("loading-panel").hidden = false;
+    $("loading-title").textContent = title;
+    $("loading-detail").textContent = detail;
+  }
+  function hideLoading(){ $("loading-panel").hidden = true; }
+
+  async function ensureModel() {
+    if (state.model) return state.model;
+    if (!window.tmImage) {
+      setModelStatus("Model library unavailable", "Connect to the internet and reload. TensorFlow.js and Teachable Machine libraries are loaded from a CDN.");
+      $("camera-error").hidden = false;
+      $("camera-error-title").textContent = "Model library could not load";
+      $("camera-error-message").textContent = "The Teachable Machine library is unavailable. Check your internet connection and reload this page.";
+      return null;
+    }
+    showLoading("Loading SightMate model…", "Connecting to the Teachable Machine image model.");
+    setModelStatus("Loading model", "The model and class labels are being retrieved.");
+    try {
+      const model = await window.tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+      state.model = model;
+      state.labels = model.getClassLabels();
+      renderClassPlaceholders();
+      hideLoading();
+      $("camera-error").hidden = true;
+      setModelStatus("SightMate model connected", `${state.labels.length} model classes loaded from its metadata.`, true);
+      announce(`SightMate model ready. ${state.labels.length} classes loaded.`);
+      return model;
+    } catch (error) {
+      hideLoading();
+      setModelStatus("Unable to connect model", "Check the model URL, internet connection, and browser console for details.");
+      $("camera-error").hidden = false;
+      $("camera-error-title").textContent = "Model loading failed";
+      $("camera-error-message").textContent = error?.message || "The model could not be loaded.";
+      announce("Model loading failed.");
+      return null;
+    }
+  }
+
+  function renderClassPlaceholders() {
+    const list = $("confidence-list");
+    list.replaceChildren();
+    if (!state.labels.length) {
+      list.textContent = "The model has not supplied any class labels.";
+      return;
+    }
+    state.labels.forEach(label => {
+      const row = document.createElement("div");
+      row.className = "confidence-row";
+      const labelLine = document.createElement("div");
+      labelLine.className = "confidence-label";
+      const name = document.createElement("span");
+      name.textContent = label;
+      const value = document.createElement("span");
+      value.textContent = "—";
+      const track = document.createElement("div");
+      track.className = "confidence-track";
+      track.setAttribute("role","img");
+      track.setAttribute("aria-label",`${label}: no prediction yet`);
+      const fill = document.createElement("div");
+      fill.className = "confidence-fill";
+      fill.style.width = "0%";
+      track.append(fill);
+      labelLine.append(name,value);
+      row.append(labelLine,track);
+      list.append(row);
+    });
+  }
+
+  function drawPredictions(predictions, image, source) {
+    const sorted = [...predictions].sort((a,b)=>b.probability-a.probability);
+    const top = sorted[0];
+    const percent = Math.round(top.probability * 100);
+    const certain = percent >= 80;
+    state.latest = {label:top.className, confidence:top.probability, predictions:sorted, timestamp:new Date().toISOString(), source};
+    state.latestImage = image;
+    state.latestSource = source;
+    $("result-level").textContent = certain ? "Prediction · 80%+ score" : "Uncertain · below 80%";
+    $("result-level").style.background = certain ? "#d9f2e4" : "#ffeadb";
+    $("result-level").style.color = "#0d1c2e";
+    $("result-score").textContent = `${percent}%`;
+    $("result-summary").textContent = certain
+      ? `The model's highest-scoring class is “${top.className}” at ${percent}%. This is a model prediction, not a verified description of your surroundings.`
+      : `The model's highest-scoring class is “${top.className}” at ${percent}%. This is below the 80% threshold, so the result is uncertain.`;
+    $("visual-description").textContent = certain
+      ? `The image classifier predicts: ${top.className}. Its confidence score is ${percent}%. SightMate can report the model's label and scores, but this model does not generate a natural-language description of the scene.`
+      : `The model is not confident enough to provide a clear classification. Its highest-scoring label is “${top.className}” at ${percent}%. Try a clearer, well-lit image with the subject more visible.`;
+    const list = $("confidence-list");
+    list.replaceChildren();
+    sorted.forEach((item,index) => {
+      const pct = Math.round(item.probability*100);
+      const row = document.createElement("div");
+      row.className = "confidence-row";
+      const line = document.createElement("div");
+      line.className = "confidence-label";
+      const name = document.createElement("span");
+      name.textContent = item.className;
+      const value = document.createElement("span");
+      value.textContent = `${pct}%`;
+      const track = document.createElement("div");
+      track.className = "confidence-track";
+      track.setAttribute("role","img");
+      track.setAttribute("aria-label",`${item.className}: ${pct} percent confidence`);
+      const fill = document.createElement("div");
+      fill.className = "confidence-fill";
+      fill.style.width = `${pct}%`;
+      if(index!==0) fill.style.background = "#6688c7";
+      track.append(fill);
+      line.append(name,value);
+      row.append(line,track);
+      list.append(row);
+    });
+    if (image) {
+      $("result-image").src = image;
+      $("result-image").hidden = false;
+      $("result-image-empty").hidden = true;
+      $("result-image").alt = `Image analyzed. Model prediction: ${top.className}, ${percent} percent.`;
+    }
+    $("save-scan").disabled = false;
+    $("undo-result").disabled = state.undoStack.length===0;
+    $("result-banner").scrollIntoView({behavior:"smooth",block:"start"});
+    announce(certain ? `Prediction: ${top.className}, ${percent} percent.` : `Uncertain result. Highest score ${top.className}, ${percent} percent, below the 80 percent threshold.`);
+    navigate("results");
+  }
+
+  async function classifyImage(imageElement, source) {
+    const model = await ensureModel();
+    if (!model) return;
+    showLoading("Analyzing image…", "Running the image through the connected model.");
+    try {
+      const predictions = await model.predict(imageElement, false);
+      hideLoading();
+      drawPredictions(predictions, imageElement.src || state.latestImage, source);
+    } catch (error) {
+      hideLoading();
+      $("camera-error").hidden = false;
+      $("camera-error-title").textContent = "Prediction failed";
+      $("camera-error-message").textContent = error?.message || "The model could not analyze this image.";
+      announce("Image prediction failed.");
+    }
+  }
+
+  async function startCamera() {
+    $("camera-error").hidden = true;
+    if (!navigator.mediaDevices?.getUserMedia) {
+      showCameraError("Camera access is not available in this browser or page context. Open the site through HTTPS or localhost and use a supported browser.");
+      return;
+    }
+    const model = await ensureModel();
+    if (!model) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+      state.stream = stream;
+      const video = $("camera-video");
+      video.srcObject = stream;
+      await video.play();
+      video.classList.add("visible");
+      $("camera-placeholder").hidden = true;
+      $("upload-preview").hidden = true;
+      $("camera-status-text").textContent = "Camera active";
+      $("start-camera").disabled = true;
+      $("stop-camera").disabled = false;
+      $("capture-button").disabled = false;
+      $("camera-overlay-status").querySelector(".status-dot").classList.add("ready");
+      announce("Camera started. Capture an image when ready.");
+      state.timer = window.setInterval(async () => {
+        if (!state.stream || state.cameraBusy || video.readyState < 2) return;
+        state.cameraBusy = true;
+        try {
+          const predictions = await state.model.predict(video, false);
+          const top = [...predictions].sort((a,b)=>b.probability-a.probability)[0];
+          const score = Math.round(top.probability*100);
+          $("camera-hint").textContent = `Current model preview: ${top.className}, ${score}%. Select Capture & Analyze to open results.`;
+          $("camera-status-text").textContent = `Preview: ${top.className} · ${score}%`;
+        } catch (_) { /* transient camera frame; keep the stream available */ }
+        state.cameraBusy = false;
+      }, 1400);
+    } catch (error) {
+      let message = error?.message || "The browser could not start the camera.";
+      if (error?.name === "NotAllowedError") message = "Camera permission was denied. Allow camera access in the browser's site settings, then try again.";
+      if (error?.name === "NotFoundError") message = "No camera was found on this device.";
+      if (error?.name === "NotReadableError") message = "The camera may already be in use by another app. Close other apps using it and try again.";
+      showCameraError(message);
+    }
+  }
+  function showCameraError(message) {
+    $("camera-error").hidden = false;
+    $("camera-error-title").textContent = "Camera unavailable";
+    $("camera-error-message").textContent = message;
+    $("camera-status-text").textContent = "Camera unavailable";
+    announce(message);
+  }
+  function stopCamera() {
+    if (state.timer) clearInterval(state.timer);
+    state.timer = null;
+    if (state.stream) state.stream.getTracks().forEach(track=>track.stop());
+    state.stream = null;
+    const video = $("camera-video");
+    video.pause();
+    video.srcObject = null;
+    video.classList.remove("visible");
+    $("camera-placeholder").hidden = false;
+    $("camera-hint").textContent = "Start the camera or upload an image to begin.";
+    $("camera-status-text").textContent = "Camera inactive";
+    $("camera-overlay-status").querySelector(".status-dot").classList.remove("ready");
+    $("start-camera").disabled = false;
+    $("stop-camera").disabled = true;
+    $("capture-button").disabled = true;
+    state.cameraBusy = false;
+  }
+  function captureCamera() {
+    const video = $("camera-video");
+    if (!state.stream || video.videoWidth===0) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video,0,0);
+    const image = new Image();
+    image.onload = () => classifyImage(image,"camera capture");
+    image.src = canvas.toDataURL("image/jpeg",.9);
+  }
+  function handleUpload(file) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      showCameraError("Please choose an image file.");
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      $("upload-preview").src = url;
+      $("upload-preview").hidden = false;
+      $("camera-video").classList.remove("visible");
+      $("camera-placeholder").hidden = true;
+      $("camera-status-text").textContent = "Image selected";
+      $("analyze-upload").disabled = false;
+      state.pendingUpload = img;
+      state.pendingUploadUrl = url;
+      announce("Image selected. Choose Analyze Uploaded Image to run the model.");
+    };
+    img.onerror = () => showCameraError("The selected image could not be opened.");
+    img.src = url;
+  }
+
+  function updateCounts() {
+    const n = state.history.length;
+    try { localStorage.setItem("sightmate-saved-scans", JSON.stringify(state.history)); } catch (_) { /* keep the current-session list usable without storage */ }
+    $("history-count").textContent = n;
+    $("total-scans").textContent = n;
+    $("nav-count").textContent = n;
+    $("history-subtitle").textContent = n ? `${n} scan${n===1?"":"s"} saved in this session.` : "No scans saved yet.";
+    $("export-history").disabled = n===0;
+    $("undo-history").disabled = state.undoStack.length===0;
+    $("clear-history").disabled = n===0;
+  }
+  function renderHistory() {
+    updateCounts();
+    const list = $("history-list");
+    list.replaceChildren();
+    if (!state.history.length) {
+      const empty = document.createElement("div");
+      empty.className = "panel empty-history";
+      empty.innerHTML = '<span aria-hidden="true">◷</span><h3>No saved scans yet</h3><p>After analyzing an image, choose “Save This Scan” to add it to your history.</p>';
+      const button = document.createElement("button");
+      button.className = "button primary";
+      button.textContent = "Start a Scan";
+      button.addEventListener("click",()=>navigate("scan"));
+      empty.append(button);
+      list.append(empty);
+      return;
+    }
+    state.history.forEach(item=>{
+      const card = document.createElement("article");
+      card.className = "panel history-card";
+      const top = document.createElement("div");
+      top.className = "history-card-top";
+      const badge = document.createElement("span");
+      badge.className = "status-pill";
+      badge.textContent = `${Math.round(item.confidence*100)}% model score`;
+      const date = document.createElement("span");
+      date.className = "muted";
+      date.textContent = new Date(item.timestamp).toLocaleString();
+      top.append(badge,date);
+      const title = document.createElement("h3");
+      title.textContent = item.label;
+      const description = document.createElement("p");
+      description.className = "muted";
+      description.textContent = `Source: ${item.source}. This is a saved model classification, not a scene or navigation report.`;
+      const actions = document.createElement("div");
+      actions.className = "two-actions";
+      const read = document.createElement("button");
+      read.className = "button secondary";
+      read.textContent = "Read Result";
+      read.addEventListener("click",()=>speak(`Saved scan. ${item.label}. ${Math.round(item.confidence*100)} percent model score.`));
+      const remove = document.createElement("button");
+      remove.className = "button secondary";
+      remove.textContent = "Remove";
+      remove.addEventListener("click",()=>{
+        state.undoStack.push({type:"remove",item,index:state.history.indexOf(item)});
+        state.history = state.history.filter(x=>x.id!==item.id);
+        renderHistory();
+        announce("Saved scan removed. You can undo this action.");
+      });
+      actions.append(read,remove);
+      card.append(top,title,description,actions);
+      list.append(card);
+    });
+  }
+  function saveCurrent() {
+    if (!state.latest) return;
+    const item = {...state.latest,id:crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`};
+    state.undoStack.push({type:"save",item});
+    state.history.unshift(item);
+    renderHistory();
+    $("save-scan").disabled = true;
+    $("save-scan").textContent = "Saved to History";
+    $("undo-result").disabled = false;
+    announce(`Saved ${item.label} to scan history.`);
+  }
+  function undo() {
+    const action = state.undoStack.pop();
+    if (!action) return;
+    if (action.type==="save") state.history=state.history.filter(x=>x.id!==action.item.id);
+    if (action.type==="remove") state.history.splice(Math.min(action.index,state.history.length),0,action.item);
+    if (action.type==="clear") state.history=action.items;
+    renderHistory();
+    $("undo-result").disabled = state.undoStack.length===0;
+    $("save-scan").disabled = !state.latest || state.history.some(x=>x.label===state.latest.label && x.timestamp===state.latest.timestamp);
+    $("save-scan").textContent = $("save-scan").disabled ? "Saved to History" : "Save This Scan to History";
+    announce("Last history action undone.");
+  }
+  function clearHistory() {
+    if (!state.history.length) return;
+    state.undoStack.push({type:"clear",items:[...state.history]});
+    state.history=[];
+    renderHistory();
+    announce("Scan history cleared. You can undo this action.");
+  }
+  function exportHistory() {
+    if (!state.history.length) return;
+    const lines = ["SightMate – Visual AI | Saved Scan History","Only user-saved model classifications are included.",""];
+    state.history.forEach((item,i)=>lines.push(`${i+1}. ${item.label} — ${Math.round(item.confidence*100)}% — ${new Date(item.timestamp).toLocaleString()} — ${item.source}`));
+    const blob = new Blob([lines.join("\n")],{type:"text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement("a");a.href=url;a.download="sightmate-scan-history.txt";a.click();URL.revokeObjectURL(url);
+  }
+
+  document.querySelectorAll("[data-go]").forEach(btn=>btn.addEventListener("click",()=>navigate(btn.dataset.go)));
+  $("how-it-works").addEventListener("click",()=>{$("how-section").scrollIntoView({behavior:"smooth"});});
+  $("start-camera").addEventListener("click",startCamera);
+  $("stop-camera").addEventListener("click",stopCamera);
+  $("capture-button").addEventListener("click",captureCamera);
+  $("upload-trigger").addEventListener("click",()=>$("image-upload").click());
+  $("image-upload").addEventListener("change",e=>handleUpload(e.target.files?.[0]));
+  $("analyze-upload").addEventListener("click",()=>{if(state.pendingUpload)classifyImage(state.pendingUpload,"uploaded image");});
+  $("save-scan").addEventListener("click",saveCurrent);
+  $("scan-again").addEventListener("click",()=>{resetResult();navigate("scan");});
+  $("return-scan").addEventListener("click",()=>navigate("scan"));
+  $("undo-result").addEventListener("click",undo);
+  $("undo-history").addEventListener("click",undo);
+  $("clear-history").addEventListener("click",clearHistory);
+  $("export-history").addEventListener("click",exportHistory);
+  $("read-result").addEventListener("click",()=>{
+    if (!state.latest) return speak("No image has been analyzed yet.");
+    const p=Math.round(state.latest.confidence*100);
+    speak(`${p<80?"Uncertain result. ":""}The model's highest-scoring class is ${state.latest.label}, with a score of ${p} percent. This is image classification only, not environmental awareness or navigation guidance.`);
+  });
+  $("voice-toggle").addEventListener("change",e=>{state.voice=e.target.checked;$("settings-voice").checked=state.voice;});
+  $("settings-voice").addEventListener("change",e=>{state.voice=e.target.checked;$("voice-toggle").checked=state.voice;});
+  $("announce-toggle").addEventListener("change",e=>state.announce=e.target.checked);
+  $("accessibility-open").addEventListener("click",()=>$("accessibility-dialog").showModal());
+  $("contrast-toggle").addEventListener("change",e=>document.body.classList.toggle("high-contrast",e.target.checked));
+  $("large-text-toggle").addEventListener("change",e=>document.body.classList.toggle("large-text",e.target.checked));
+  $("accessibility-dialog").addEventListener("close",()=>announce("Accessibility settings closed."));
+  window.addEventListener("beforeunload",stopCamera);
+
+  function resetResult() {
+    state.latest=null;state.latestImage=null;state.latestSource="";
+    $("result-level").textContent="Waiting for image";
+    $("result-score").textContent="—";
+    $("result-summary").textContent="Capture an image or upload a photo in the Scanner to see the model's prediction.";
+    $("visual-description").textContent="SightMate has not analyzed an image yet.";
+    $("result-image").hidden=true;$("result-image-empty").hidden=false;
+    $("save-scan").disabled=true;$("save-scan").textContent="Save This Scan to History";
+    $("confidence-list").innerHTML='<p class="muted">Run a prediction to see class confidence scores.</p>';
+  }
+  updateCounts();
+  renderClassPlaceholders();
+  if (!("speechSynthesis" in window)) $("speech-status").textContent="Voice not supported";
+  else $("speech-status").innerHTML='<span class="status-dot ready"></span> Voice ready';
+})();
+
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <a class="brand" href="#home" aria-label="SightMate home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span class="brand-name">SightMate</span>
+      </a>
+      <span class="brand-subtitle">Visual AI</span>
+    </div>
+    <div class="top-actions">
+      <span class="speech-status" id="speech-status"><span class="status-dot"></span> Voice ready</span>
+      <button class="icon-button" id="accessibility-open" type="button" aria-label="Open accessibility settings" title="Accessibility settings">☷</button>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="screen active" id="screen-home" aria-labelledby="home-title">
+      <div class="home-hero panel">
+        <div class="eyebrow"><span aria-hidden="true">✦</span> PCTVS Assistive Tech Project</div>
+        <h1 id="home-title">Making the world around you easier to understand.</h1>
+        <p class="hero-copy">SightMate uses an image classification model to recognize visual categories in a camera view or an uploaded photo. Results are presented in a clear, accessible format with optional spoken output.</p>
+        <aside class="safety-note" role="note">
+          <span class="note-icon" aria-hidden="true">!</span>
+          <p><strong>Safety Notice:</strong> SightMate provides image-based predictions only. It does not verify distances, detect every obstacle, or replace a white cane, guide dog, orientation and mobility training, or help from a trusted person. Never use an AI prediction to decide when to cross a road.</p>
+        </aside>
+        <div class="hero-actions">
+          <button class="button primary wide" type="button" data-go="scan"><span aria-hidden="true">◎</span> Start Scanning Now <span aria-hidden="true">→</span></button>
+          <button class="button secondary wide" type="button" id="how-it-works"><span aria-hidden="true">▤</span> Explore How It Works</button>
+        </div>
+      </div>
+
+      <div class="feature-tiles" aria-label="Project highlights">
+        <article class="feature-tile campus"><span>Campus focused</span></article>
+        <article class="feature-tile clarity"><span>Clear visual results</span></article>
+      </div>
+
+      <section class="content-section" id="how-section">
+        <div class="section-heading"><h2>How SightMate Works</h2><span>3 Steps</span></div>
+        <div class="steps">
+          <article class="step-card"><div class="step-number">1</div><div><h3>Capture or Upload</h3><p>Start your camera or choose an image file from your device. You control when a still image is analyzed.</p></div></article>
+          <article class="step-card"><div class="step-number pale">2</div><div><h3>AI Classification</h3><p>The connected Teachable Machine image model returns its own class labels and confidence scores. SightMate does not invent labels.</p></div></article>
+          <article class="step-card"><div class="step-number pale">3</div><div><h3>Listen or Read</h3><p>Review the prediction, confidence breakdown, and uncertainty notice. Use the read-aloud control if it is supported by your browser.</p></div></article>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>Core Features</h2>
+        <div class="capability-grid">
+          <article class="capability-card"><span class="cap-icon">◉</span><h3>Image recognition</h3><p>Classifies an uploaded or camera-captured image using the connected model.</p></article>
+          <article class="capability-card"><span class="cap-icon">▤</span><h3>Readable results</h3><p>Displays every model class with a confidence bar and an 80% certainty threshold.</p></article>
+          <article class="capability-card"><span class="cap-icon">♫</span><h3>Voice guidance</h3><p>Optional text-to-speech reads the current prediction and important notices aloud.</p></article>
+        </div>
+      </section>
+      <section class="model-card panel">
+        <div class="model-heading"><span class="cap-icon">⌘</span><div><h2>Model connection</h2><p>SightMate – Visual AI · Teachable Machine image model</p></div></div>
+        <div class="model-status-row"><span class="status-dot" id="model-dot"></span><strong id="model-status">Model not loaded yet</strong><span class="status-pill" id="model-pill">Not connected</span></div>
+        <p class="muted" id="model-detail">The model loads when you open the Scanner. An internet connection is required to load the model and its libraries.</p>
+        <div class="model-footer"><span>Project location: PCTVS</span><span>Display name: Rsangupillai</span></div>
+      </section>
+    </section>
+
+    <section class="screen" id="screen-scan" aria-labelledby="scan-title" hidden>
+      <div class="panel demo-panel">
+        <div class="demo-heading"><div><strong>Scanner controls</strong><p>Accessible preview and real camera</p></div><span class="status-pill">Live model</span></div>
+        <div class="demo-grid">
+          <button class="button small primary" id="start-camera" type="button">Start Camera</button>
+          <button class="button small secondary" id="stop-camera" type="button" disabled>Stop Camera</button>
+          <button class="button small secondary" id="upload-trigger" type="button">Upload Image</button>
+          <input id="image-upload" type="file" accept="image/*" hidden>
+        </div>
+      </div>
+
+      <div class="guidance panel blue-panel">
+        <span class="round-icon" aria-hidden="true">◎</span>
+        <div><h2 id="scan-title">Visual Scanner</h2><p>Point the camera toward an object or choose a photo. Keep the subject visible and well lit for a more useful image classification.</p></div>
+      </div>
+
+      <div class="camera-frame" id="camera-frame">
+        <video id="camera-video" autoplay muted playsinline aria-label="Live camera preview"></video>
+        <img id="upload-preview" alt="Selected image preview" hidden>
+        <div class="camera-placeholder" id="camera-placeholder">
+          <span class="reticle" aria-hidden="true">+</span>
+          <strong>Camera preview</strong>
+          <span id="camera-hint">Start the camera or upload an image to begin.</span>
+        </div>
+        <div class="camera-overlay-status" id="camera-overlay-status"><span class="status-dot"></span><span id="camera-status-text">Camera inactive</span></div>
+      </div>
+
+      <div class="camera-actions">
+        <button class="button primary wide" id="capture-button" type="button" disabled>Capture &amp; Analyze Photo</button>
+        <button class="button secondary wide" id="analyze-upload" type="button" disabled>Analyze Uploaded Image</button>
+      </div>
+
+      <div class="panel loading-panel" id="loading-panel" hidden>
+        <div class="spinner" aria-hidden="true"></div><div><strong id="loading-title">Loading model…</strong><p id="loading-detail">Connecting to the Teachable Machine model.</p></div>
+      </div>
+      <div class="panel error-panel" id="camera-error" role="alert" hidden>
+        <strong id="camera-error-title">Camera unavailable</strong><p id="camera-error-message"></p>
+        <p class="muted">Allow camera permission in your browser. Camera access generally requires HTTPS or localhost.</p>
+      </div>
+
+      <section class="panel scan-options">
+        <h2>Scan &amp; Accessibility Options</h2>
+        <label class="toggle-row"><span><strong>Voice guidance</strong><small>Read predictions and status messages aloud</small></span><input id="voice-toggle" type="checkbox" checked></label>
+        <label class="toggle-row"><span><strong>Announce updates</strong><small>Send prediction updates to screen readers</small></span><input id="announce-toggle" type="checkbox" checked></label>
+      </section>
+
+      <div class="safety-inline"><strong>Important:</strong> This classifier recognizes the image category it was trained to identify. It does not identify where objects are relative to you, measure distance, detect all hazards, read signs, or provide reliable navigation directions.</div>
+    </section>
+
+    <section class="screen" id="screen-results" aria-labelledby="results-title" hidden>
+      <div class="result-banner panel" id="result-banner">
+        <div class="result-banner-top"><span class="status-pill" id="result-level">Waiting for image</span><span class="result-score" id="result-score">—</span></div>
+        <h1 id="results-title">Scan Results</h1>
+        <p id="result-summary">Capture an image or upload a photo in the Scanner to see the model's prediction.</p>
+        <button class="button secondary" id="read-result" type="button">♫ Read Description Aloud</button>
+      </div>
+
+      <div class="panel result-image-panel">
+        <h2>Analyzed Image</h2>
+        <div class="result-image-wrap"><img id="result-image" alt="Image analyzed by SightMate" hidden><div id="result-image-empty" class="empty-image">No image analyzed yet</div></div>
+        <p class="muted">The image is classified by the connected model. The result is not a live environmental scan.</p>
+      </div>
+
+      <div class="panel probability-panel">
+        <div class="section-heading"><h2>Class Probability Spectrum</h2><span>All model labels</span></div>
+        <div id="confidence-list" class="confidence-list"><p class="muted">Class labels will appear after the model loads.</p></div>
+        <p class="threshold-note"><strong>80% confidence threshold:</strong> Predictions below 80% are marked uncertain. Confidence is the model's score, not a guarantee that the prediction is correct.</p>
+      </div>
+
+      <div class="panel description-panel">
+        <h2>What the model can tell you</h2>
+        <p id="visual-description">SightMate has not analyzed an image yet.</p>
+        <div class="capability-boundary"><strong>Capability boundary</strong><p>This Teachable Machine image classifier returns class labels and scores. It does not generate scene descriptions, identify objects beside or in front of you, verify pedestrian signals, or determine safe paths. Do not use it as a navigation or road-crossing system.</p></div>
+      </div>
+
+      <div class="panel result-actions">
+        <button class="button primary wide" id="save-scan" type="button" disabled>Save This Scan to History</button>
+        <div class="two-actions"><button class="button secondary" id="scan-again" type="button">Scan Again</button><button class="button secondary" id="return-scan" type="button">Return to Scanner</button></div>
+        <button class="text-button" id="undo-result" type="button" disabled>Undo last save</button>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-history" aria-labelledby="history-title" hidden>
+      <div class="history-heading">
+        <div><span class="eyebrow">Active Session</span><h1 id="history-title">Saved Scans</h1><p>Scans you explicitly saved during this session. Nothing is added automatically.</p></div>
+        <span class="history-count" id="history-count">0</span>
+      </div>
+      <div class="panel session-summary">
+        <span class="summary-label">Current session log</span><h2>Total Saved Scans: <span id="total-scans">0</span></h2>
+        <p id="history-subtitle">No scans saved yet.</p>
+      </div>
+      <div class="history-toolbar"><h2>Scan History</h2><button class="button small secondary" id="export-history" type="button" disabled>Export Text</button></div>
+      <div id="history-list" class="history-list">
+        <div class="panel empty-history"><span aria-hidden="true">◷</span><h3>No saved scans yet</h3><p>After analyzing an image, choose “Save This Scan” to add it to your history.</p><button class="button primary" type="button" data-go="scan">Start a Scan</button></div>
+      </div>
+      <div class="panel history-actions">
+        <h2>Session History Actions</h2>
+        <div class="two-actions"><button class="button secondary" id="undo-history" type="button" disabled>Undo Last Action</button><button class="button secondary" id="clear-history" type="button" disabled>Clear History</button></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-item active" type="button" data-go="home" aria-current="page"><span aria-hidden="true">⌂</span><span>Home</span></button>
+    <button class="nav-item" type="button" data-go="scan"><span aria-hidden="true">◎</span><span>Scan</span></button>
+    <button class="nav-item" type="button" data-go="results"><span aria-hidden="true">▤</span><span>Results</span></button>
+    <button class="nav-item" type="button" data-go="history"><span aria-hidden="true">◷</span><span>History <b id="nav-count">0</b></span></button>
+  </nav>
+
+  <div class="sr-only" id="live-announcer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog id="accessibility-dialog" class="settings-dialog">
+    <form method="dialog">
+      <div class="dialog-heading"><h2>Accessibility Settings</h2><button class="icon-button" aria-label="Close settings">×</button></div>
+      <label class="toggle-row"><span><strong>Voice guidance</strong><small>Use your browser's text-to-speech voice</small></span><input id="settings-voice" type="checkbox" checked></label>
+      <label class="toggle-row"><span><strong>High contrast</strong><small>Increase contrast across the interface</small></span><input id="contrast-toggle" type="checkbox"></label>
+      <label class="toggle-row"><span><strong>Larger text</strong><small>Increase the base text size</small></span><input id="large-text-toggle" type="checkbox"></label>
+      <p class="muted">Speech availability depends on your browser and device. You can also use keyboard Tab, Shift+Tab, Enter, and Space to navigate controls.</p>
+      <button class="button primary wide" value="close">Done</button>
+    </form>
+  </dialog>
+</body>
+</html>
